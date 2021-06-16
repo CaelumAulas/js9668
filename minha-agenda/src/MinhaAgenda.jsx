@@ -6,7 +6,6 @@ import Rodape from "./components/Rodape";
 import TabelaContatos from "./components/TabelaContatos";
 
 class MinhaAgenda extends Component {
-
   state = {
     contatos: []
   }
@@ -18,7 +17,9 @@ class MinhaAgenda extends Component {
   }
 
   removeContact = (indice) => {
-    
+    // const listaContatos = this.state.contatos.filter((c, index) => indice !== index);
+    this.state.contatos.splice(indice, 1);
+    this.setState({ contatos: [...this.state.contatos] });
   }
 
   render() {

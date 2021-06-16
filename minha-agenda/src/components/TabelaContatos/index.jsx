@@ -13,13 +13,13 @@ export default class TabelaContatos extends Component {
                 </thead>
                 <tbody>
                     {
-                        this.props.listaContatos.map(function(contato, index) {
+                        this.props.listaContatos.map((contato, index) => {
                             return (
                                 <tr key={index}>
                                     <td>{contato.nome}</td>
                                     <td>{contato.telefone}</td>
                                     <td>
-                                        <button className="btn btn-danger">
+                                        <button onClick={() => this.props.removeContactCallback(index)} className="btn btn-danger">
                                             Excluir
                                         </button>
                                     </td>
