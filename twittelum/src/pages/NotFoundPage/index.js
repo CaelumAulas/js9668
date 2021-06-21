@@ -7,4 +7,4 @@ export default function NotFoundPage( { location: { pathname } } ) {
             para a <Link to="/">página inicial basta clicar aqui</Link>.
         </div>
     );
-}
+} 
