@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet";
 import MasterLayout from "../../components/MasterLayout";
 import imgConcessionaria from '../../assets/images/foto-concessionaria.jpg';
 import '../../assets/css/sobre.css';
@@ -5,6 +6,9 @@ import '../../assets/css/sobre.css';
 export default function SobrePage() {
     return (
         <MasterLayout>
+            <Helmet>
+                <title>AutoCaelum | Sobre a empresa</title>
+            </Helmet>
             <main className="container">
                 <h1 className="cabecalho-pagina">Sobre a empresa</h1>
                 <figure className="foto-concessionaria">

@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet";
 import MasterLayout from "../../components/MasterLayout";
 import VeiculosList from "../../components/VeiculosList";
 import img1 from '../../assets/images/home-imagem-1.jpg';
@@ -8,6 +9,9 @@ import '../../assets/css/grid-principal.css';
 export default function HomePage() {
     return (
         <MasterLayout>
+            <Helmet>
+                <title>AutoCaelum | Bem-vindo ao nosso site</title>
+            </Helmet>
             <main className="container">
                 <section className="container grid-principal">
                     <figure>
