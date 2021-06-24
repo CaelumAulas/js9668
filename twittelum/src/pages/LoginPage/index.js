@@ -6,12 +6,21 @@ import Widget from '../../components/Widget'
 import './loginPage.css'
 import LoginService from '../../services/LoginService';
 import NotificacaoContext from '../../contexts/NotificacaoContext';
+import useValidations from '../../hooks/useValidations';
+import useFormValidator from '../../hooks/useFormValidator';
 
 function LoginPage() {
     const inputLogin = useRef();
     const inputSenha = useRef();
     const history = useHistory();
     const setNotificacao = useContext(NotificacaoContext);
+
+    const { isEmpty } = useValidations();
+    const { errors, isFormValid, validate } = useFormValidator({
+        login: isEmpty('Login é obrigatório!'),
+        senha: isEmpty('Senha é obrigatório!')
+    });
+    
 
     const handleLoginSubmit = async (e) => {
         e.preventDefault();
@@ -45,14 +54,18 @@ function LoginPage() {
                         <form onSubmit={ handleLoginSubmit } className="loginPage__form" action="/">
                             <div className="loginPage__inputWrap">
                                 <label className="loginPage__label" htmlFor="login">Login</label>
-                                <input ref={inputLogin} className="loginPage__input" type="text" id="login" name="login" />
+                                <input ref={inputLogin} onBlur={validate} className="loginPage__input" type="text" id="login" name="login" />
+                                {errors.login && <span className="loginPage__error">{errors.login}</span>}
                             </div>
+                            
                             <div className="loginPage__inputWrap">
                                 <label className="loginPage__label" htmlFor="senha">Senha</label>
-                                <input ref={inputSenha} className="loginPage__input" type="password" id="senha" name="senha" />
+                                <input ref={inputSenha} onBlur={validate} className="loginPage__input" type="password" id="senha" name="senha" />
+                                {errors.senha && <span className="loginPage__error">{errors.senha}</span>}
                             </div>
+
                             <div className="loginPage__inputWrap">
-                                <button className="loginPage__btnLogin" type="submit">
+                                <button disabled={!isFormValid} className="loginPage__btnLogin" type="submit">
                                     Logar
                                 </button>
                             </div>
