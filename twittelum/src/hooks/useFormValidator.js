@@ -1,28 +1,30 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 export default function useFormValidator(validations) {
     const [errors, setErrors] = useState(createInitialState());
+    const [values, setValues] = useState(createInitialState());
     const [isFormValid, setFormValid] = useState(false);
 
     function createInitialState() {
-        const defaultErrors = {};
+        const defaultValues = {};
 
         for (let prop in validations) {
-            defaultErrors[prop] = '';
+            defaultValues[prop] = '';
         }
 
-        return defaultErrors;
+        return defaultValues;
     }
 
     function validate(event) {
         const { name, value } = event.target;
         errors[name] = validations[name](value);
+        values[name] = value;
+        let status = Object.entries(values).every(([prop, value]) => {
+            return validations[prop](value) === ''
+        });
+        
         setErrors({ ...errors });
-        updateStatus();
-    }
-
-    function updateStatus() {
-        let status = Object.values(errors).every(erro => erro.trim() === '');
+        setValues({ ...values });
         setFormValid(status);
     }
 
