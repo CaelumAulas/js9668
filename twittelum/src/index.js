@@ -22,15 +22,15 @@ import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
     <React.StrictMode>
-    <Notificacao>
-        <BrowserRouter>
-            <Switch>
-                <PrivateRoute path="/" component={HomePage} exact />
-                <Route path="/login" component={LoginPage} />
-                <Route component={NotFoundPage} />
-            </Switch>
-        </BrowserRouter>
-    </Notificacao>
+        <Notificacao>
+            <BrowserRouter>
+                <Switch>
+                    <PrivateRoute path="/" component={HomePage} exact />
+                    <Route path="/login" component={LoginPage} />
+                    <Route component={NotFoundPage} />
+                </Switch>
+            </BrowserRouter>
+        </Notificacao>
     </React.StrictMode>
 , document.getElementById("root"));
 
