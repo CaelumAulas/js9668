@@ -1,0 +1,13 @@
+REDUX = Biblioteca de Gerenciamento de Estado de aplicações front-end
+SSOT = Single Source of Truth
+
+    Store = centraliza o estado e as informações mais importantes da aplicação
+    Action = Objeto que representa a ação de atualização do estado (o que muda no estado dentro da store)
+    Reducer = Função que a partir da action disparada, determina como o estado deve ser atualizado e retorna esse estado modificado
+    Middleware = Funções que ficam no meio de campo entre a ação disparada e sua efetivação no store para realização de operações
+    assíncronas que possam influenciar na maneira como o estado deve ser atualizado pela função Reducer.
+        Ex:
+            Thunk (Vamos usar no curso)
+            Redux Observables
+            Redux Saga
+            ...
