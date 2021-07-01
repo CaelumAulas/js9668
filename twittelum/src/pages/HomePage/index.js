@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useContext } from 'react';
+import React, { Fragment, useEffect, useContext } from 'react';
 import { Helmet } from 'react-helmet';
 import Cabecalho from '../../components/Cabecalho'
 import NavMenu from '../../components/NavMenu'
@@ -9,31 +9,32 @@ import Tweet from '../../components/Tweet'
 import FormNovoTweet from '../../components/FormNovoTweet';
 import TweetService from '../../services/TweetService';
 import NotificacaoContext from '../../contexts/NotificacaoContext';
+import { useSelector, useDispatch } from 'react-redux';
+import { TweetThunkActions } from '../../store/ducks/tweets';
 
 function HomePage() {
-    const [tweets, setTweets] = useState([]);
+    const { data: tweets, erro } = useSelector(state => state.tweets);
+    const dispatch = useDispatch();
     const setNotificacao = useContext(NotificacaoContext);
 
     useEffect(() => {
-        TweetService.getTweets().then(listaTweets => setTweets(listaTweets));
-    }, []);
 
-    const addTweet = async (textoTweet) => {
-        try {
-            const tweetServidor = await TweetService.addTweet(textoTweet);
-            setTweets([tweetServidor, ...tweets]);
-            setNotificacao('Tweet criado com sucesso!');
+        if (erro) {
+            setNotificacao(erro);
         }
-        catch(erro) {
-            setNotificacao(erro.message);
+        else {
+            dispatch(TweetThunkActions.loadTweets());
         }
-    }
+
+    }, [erro]);
+
+    const addTweet = (textoTweet) => dispatch(TweetThunkActions.addTweet(textoTweet));
 
     const deleteTweet = async (id) => {
         try {
             await TweetService.deleteTweet(id);
             const tweetsAtualizados = tweets.filter(tweet => tweet._id !== id);
-            setTweets(tweetsAtualizados);
+            // setTweets(tweetsAtualizados);
         }
         catch(erro) {
             setNotificacao(erro.message);

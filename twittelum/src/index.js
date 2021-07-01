@@ -20,17 +20,22 @@ import Notificacao from "./components/Notificacao";
 import PrivateRoute from "./routes/PrivateRoute";
 import * as serviceWorker from "./serviceWorker";
 
+import store from './store';
+import { Provider } from 'react-redux';
+
 ReactDOM.render(
     <React.StrictMode>
-        <Notificacao>
-            <BrowserRouter>
-                <Switch>
-                    <PrivateRoute path="/" component={HomePage} exact />
-                    <Route path="/login" component={LoginPage} />
-                    <Route component={NotFoundPage} />
-                </Switch>
-            </BrowserRouter>
-        </Notificacao>
+        <Provider store={store}>
+            <Notificacao>
+                <BrowserRouter>
+                    <Switch>
+                        <PrivateRoute path="/" component={HomePage} exact />
+                        <Route path="/login" component={LoginPage} />
+                        <Route component={NotFoundPage} />
+                    </Switch>
+                </BrowserRouter>
+            </Notificacao>
+        </Provider>
     </React.StrictMode>
 , document.getElementById("root"));
 
