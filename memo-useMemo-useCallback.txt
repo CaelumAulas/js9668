@@ -1,0 +1,23 @@
+# memo
+    Faz uma espécie de Cache do Componente que ajuda a informar o React se um determinado componente 
+    precisa ou não entrar no ciclo de análise para renderização.
+
+    1. Componentes Puros
+    2. Componentes que renderizam muito
+    3. Componentes que renderizam com as mesmas propriedades
+    4. Componentes de Tamanho Médio / Grande
+
+# useMemo
+    Faz o cache de um valor cujo processo de obtenção é penoso para a aplicação
+
+    const valor = useMemo(() => {
+        // calculo complicado / processo penoso
+    }, [dep])
+
+# useCallback 
+    Faz o cache de uma função que será usada como um callback garantindo que a mesma referência seja sempre retornada
+    da memória
+
+    const meuCallback = useCallback(() => {
+
+    }, [])

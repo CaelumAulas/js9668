@@ -4,6 +4,8 @@ import TweetService from "../../services/TweetService";
 const ActionTypes = {
     LOAD_TWEETS: 'tweets/LOAD',
     ADD_TWEET: 'tweets/ADD',
+    REMOVE_TWEET: 'tweets/REMOVE',
+    LIKE_TWEET: 'tweets/LIKE',
     ERROR_TWEET: 'tweets/ERROR'
 }
 
@@ -27,6 +29,26 @@ export function tweetsReducer( state = initialState, action = {} )
             return {
                 data: [ action.payload.tweet, ...state.data ],
                 erro: ''
+            }
+
+        case ActionTypes.REMOVE_TWEET :
+            return {
+                data: state.data.filter(tweet => tweet._id !== action.payload.id),
+                erro: ''
+            }
+
+        case ActionTypes.LIKE_TWEET :
+            return {
+                erro: '',
+                data: state.data.map(tweet => {
+                    if (tweet._id === action.payload.id) {
+                        let likes = tweet.totalLikes;
+                        tweet.likeado = !tweet.likeado;
+                        tweet.totalLikes = tweet.likeado ? likes + 1 : likes - 1;
+                    }
+
+                    return tweet;
+                })
             }
 
         case ActionTypes.ERROR_TWEET :
@@ -57,6 +79,30 @@ export const TweetThunkActions = {
             }
             catch(erro) {
                 dispatch({ type: ActionTypes.ERROR_TWEET, payload: { erro: erro.message } });
+            }
+        }
+    },
+
+    deleteTweet(id) {
+        return async function(dispatch) {
+            try {
+                dispatch({ type: ActionTypes.REMOVE_TWEET, payload: { id } });
+                await TweetService.deleteTweet(id);
+            }
+            catch(erro) {
+                dispatch({ type: ActionTypes.ERROR_TWEET, payload: { erro: erro.message } });
+            }
+        }
+    },
+
+    likeTweet(id) {
+        return async function(dispatch) {
+            try {
+                dispatch({ type: ActionTypes.LIKE_TWEET, payload: { id } });
+                await TweetService.likeTweet(id);
+            }
+            catch(erro) {
+                dispatch({ type: ActionTypes.ERROR_TWEET, payload: { erro: erro.message }});
             }
         }
     }
