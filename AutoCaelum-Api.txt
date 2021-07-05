@@ -1,0 +1,54 @@
+URL BASE:
+    https://jhonatanjacinto.dev/autocaelum/v1
+
+
+LOGIN
+    Método: POST
+    URL: /usuarios/login
+    Body:
+        {
+            'login': 'SEU_USUARIO',
+            'senha': '123456'
+        }
+    Resposta do Servidor: JSON
+
+
+VEICULOS
+    LISTAR TODOS OS VEÍCULOS DO USUÁRIO X
+        Método: GET
+        URL: /veiculos/u/NOME_USUARIO
+
+    LISTAR QTD ESPECIFICA DE VEÍCULOS DO USUARIO X
+        Método: GET
+        URL: /veiculos/u/NOME_USUARIO/qtd/QUANTIDADE
+
+    LISTAR QTD ESPECIFICA E RANDÔMICA DE VEÍCULOS DO USUARIO X
+        Método: GET
+        URL: /veiculos/u/NOME_USUARIO/qtd/QUANTIDADE/random
+
+    Resposta do Servidor (Sucesso): JSON (Array)
+    Resposta do Servidor (Erro): JSON (Object)
+
+    #####
+
+    ADICIONAR VEÍCULO
+        Método: POST 
+        URL: /veiculos
+        Body: 
+            {
+                'modelo': '',
+                'preco': 0,
+                'foto': '',
+                'descricao'
+            }
+
+        Headers:
+            Content-type: "application/json"
+            Authorization: "Bearer TOKEN"
+
+    EXCLUIR VEÍCULO
+        Método: DELETE
+        URL: /veiculos/ID_DO_VEÍCULO
+        Headers:
+            Content-type: "application/json"
+            Authorization: "Bearer TOKEN"
