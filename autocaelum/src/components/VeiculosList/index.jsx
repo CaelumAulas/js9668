@@ -1,27 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import VeiculoItem from '../VeiculoItem';
 import '../../assets/css/veiculos.css';
+import VeiculoService from '../../services/VeiculoService';
 
-export default function VeiculosList({ quantidade, mostrarTitulo }) {
+export default function VeiculosList({ quantidade, mostrarTitulo, randomico }) {
+    const [veiculos, setVeiculos] = useState([]);
 
-    const renderVeiculos = () => {
-        const lista = [];
-
-        for (let i = 1; i <= quantidade; i++) 
-        {
-            lista.push(
-                <VeiculoItem key={i} />
-            );
-        }
-
-        return lista;
-    } 
+    useEffect(_ => {
+        VeiculoService.getVeiculos(quantidade, randomico).then(listaVeiculos => setVeiculos(listaVeiculos));
+    }, []);
 
     return (
         <section className="container lista-veiculos">
             { mostrarTitulo && <h2>Veículos</h2> }
             <ul className="flex">
-                { renderVeiculos() }
+                {
+                    veiculos.map(veiculo => {
+                        return (
+                            <VeiculoItem
+                                key={ veiculo.id }
+                                { ...veiculo }
+                            />
+                        )
+                    })
+                }
             </ul>
         </section>
     )
@@ -29,5 +31,6 @@ export default function VeiculosList({ quantidade, mostrarTitulo }) {
 
 VeiculosList.defaultProps = {
     quantidade: 4,
-    mostrarTitulo: true
+    mostrarTitulo: true,
+    randomico: false
 }

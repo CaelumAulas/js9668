@@ -1,6 +1,6 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
-import '../../assets/css/bootstrap.min.css';
+// import '../../assets/css/bootstrap.min.css';
 import logo from '../../assets/images/logo-rodape.png';
 
 export default function VeiculosAdminPage() {

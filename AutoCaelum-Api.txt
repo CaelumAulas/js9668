@@ -44,11 +44,11 @@ VEICULOS
 
         Headers:
             Content-type: "application/json"
-            Authorization: "Bearer TOKEN"
+            Authorization: "Bearer dkfjldfkgjsdf-54654-asdfjkslf"
 
     EXCLUIR VEÍCULO
         Método: DELETE
         URL: /veiculos/ID_DO_VEÍCULO
         Headers:
             Content-type: "application/json"
-            Authorization: "Bearer TOKEN"
+            Authorization: "Bearer dkfjldfkgjsdf-54654-asdfjkslf"

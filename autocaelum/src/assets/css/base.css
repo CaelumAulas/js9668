@@ -56,10 +56,14 @@ main p {
     display: inline-block;
     border: none;
     cursor: pointer;
+    color: #fff;
+    text-decoration: none;
 }
 
 .lnk-destaque:hover {
     background-color: #475E46;
+    color: #fff;
+    text-decoration: none;
 }
 
 .redes-sociais a {

@@ -1,12 +1,13 @@
 import React from 'react'
+import { formataMoeda } from '../../utils'
 
-export default function VeiculoItem() {
+export default function VeiculoItem({ foto, modelo, preco }) {
     return (
         <li>
-            <img src="https://via.placeholder.com/232x129" alt="Chevrolet Cruze" />
-            <h3>Chevrolet Cruze LT 2012 Flex (Aut.)</h3>
+            <img src={foto} alt={modelo} />
+            <h3>{modelo}</h3>
             <p>
-                R$ 35.500,00
+                {formataMoeda(preco)}
             </p>
             <a href="#" class="lnk-destaque">
                 Ver Detalhes
