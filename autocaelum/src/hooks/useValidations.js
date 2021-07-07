@@ -31,6 +31,17 @@ export default function useValidations() {
 
                 return '';
             }
+        },
+
+        isMenorIgualZero(msgErro, required = true) {
+            return function(valor) {
+                let numero = parseFloat(valor);
+                if ((required || valor) && (isNaN(numero) || numero <= 0)) {
+                    return msgErro;
+                }
+
+                return '';
+            }
         }
     }
 

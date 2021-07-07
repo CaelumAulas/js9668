@@ -28,5 +28,11 @@ export default function useFormValidator(validations) {
         setFormValid(status);
     }
 
-    return { errors, isFormValid, validate };
+    function resetValidator() {
+        setFormValid(false);
+        setErrors(createInitialState());
+        setValues(createInitialState());
+    }
+
+    return { errors, isFormValid, validate, resetValidator };
 }

@@ -39,7 +39,7 @@ VEICULOS
                 'modelo': '',
                 'preco': 0,
                 'foto': '',
-                'descricao'
+                'descricao': ''
             }
 
         Headers:
