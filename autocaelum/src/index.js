@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
+import PrivateRoute from './routes/PrivateRoute';
 
 import HomePage from './pages/HomePage';
 import ContatoPage from './pages/ContatoPage';
@@ -21,7 +22,7 @@ ReactDOM.render(
           <Route path="/veiculos" component={VeiculosPage} exact />
           <Route path="/contato" component={ContatoPage} exact />
           <Route path="/admin/login" component={LoginPage} exact />
-          <Route path="/admin/veiculos" component={VeiculosAdminPage} exact />
+          <PrivateRoute path="/admin/veiculos" component={VeiculosAdminPage} exact />
         </Switch>
       </BrowserRouter>
     </Provider>

@@ -1,13 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Helmet } from 'react-helmet'
 // import '../../assets/css/bootstrap.min.css';
 import logo from '../../assets/images/logo-rodape.png';
-import VeiculoService from '../../services/VeiculoService';
 import useValidations from '../../hooks/useValidations';
 import useFormValidator from '../../hooks/useFormValidator';
-import { formataMoeda } from '../../utils';
+import { formataMoeda, setAuthToken } from '../../utils';
 import { useSelector, useDispatch } from 'react-redux';
 import { VeiculosThunkActions } from '../../store/ducks/veiculos';
+import { useHistory } from 'react-router-dom';
 
 export default function VeiculosAdminPage() {
     const refForm = useRef();
@@ -15,6 +15,7 @@ export default function VeiculosAdminPage() {
     const inputPreco = useRef();
     const inputFoto = useRef();
     const inputDescricao = useRef();
+    const history = useHistory();
     const { data: veiculos, error, status } = useSelector( state => state.veiculos ); // data, error, status
     const dispatch = useDispatch();
     const { isEmpty, isMenorIgualZero } = useValidations();
@@ -40,17 +41,12 @@ export default function VeiculosAdminPage() {
 
     }, [error, status, veiculos]);
 
-    const deleteVeiculo = async (id) => {
-        try
-        {
-            await VeiculoService.deleteVeiculo(id);
-            const listaAtualizada = veiculos.filter(veiculo => veiculo.id !== id);
-            // setVeiculos(listaAtualizada);
-        }
-        catch(erro) {
-            alert(erro.message);
-        }
+    const logout = () => {
+        setAuthToken('');
+        history.push('/admin/login');
     }
+
+    const deleteVeiculo = (id) => dispatch(VeiculosThunkActions.deleteVeiculo(id));
 
     const handleAddVeiculo = (e) => {
         e.preventDefault();
@@ -74,7 +70,7 @@ export default function VeiculosAdminPage() {
                     <img src={logo} className="d-inline-block align-top mr-3" alt="" />
                     Administração
                 </a>
-                <button className="btn btn-danger">
+                <button onClick={() => logout()} className="btn btn-danger">
                     Sair
                 </button>
             </nav>
