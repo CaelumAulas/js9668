@@ -6,13 +6,17 @@ import VeiculoService from '../../services/VeiculoService';
 import useValidations from '../../hooks/useValidations';
 import useFormValidator from '../../hooks/useFormValidator';
 import { formataMoeda } from '../../utils';
+import { useSelector, useDispatch } from 'react-redux';
+import { VeiculosThunkActions } from '../../store/ducks/veiculos';
 
 export default function VeiculosAdminPage() {
+    const refForm = useRef();
     const inputModelo = useRef();
     const inputPreco = useRef();
     const inputFoto = useRef();
     const inputDescricao = useRef();
-    const [veiculos, setVeiculos] = useState([]);
+    const { data: veiculos, error, status } = useSelector( state => state.veiculos ); // data, error, status
+    const dispatch = useDispatch();
     const { isEmpty, isMenorIgualZero } = useValidations();
     const { validate, errors, isFormValid, resetValidator } = useFormValidator({
         modelo: isEmpty('Modelo é obrigatório!'),
@@ -21,40 +25,42 @@ export default function VeiculosAdminPage() {
     });
 
     useEffect(() => {
-        VeiculoService.getVeiculos().then(listaVeiculos => setVeiculos(listaVeiculos));
-    }, []);
+
+        if (veiculos.length === 0) {
+            dispatch(VeiculosThunkActions.loadVeiculos());
+        }
+        else if (status === 'ADDED') {
+            alert('Veículo cadastrado com sucesso!');
+            refForm.current.reset();
+            resetValidator();
+        }
+        else if (status === 'DELETED') {
+            alert('Veículo excluído com sucesso!');
+        }
+
+    }, [error, status, veiculos]);
 
     const deleteVeiculo = async (id) => {
         try
         {
             await VeiculoService.deleteVeiculo(id);
             const listaAtualizada = veiculos.filter(veiculo => veiculo.id !== id);
-            setVeiculos(listaAtualizada);
+            // setVeiculos(listaAtualizada);
         }
         catch(erro) {
             alert(erro.message);
         }
     }
 
-    const handleAddVeiculo = async (e) => {
+    const handleAddVeiculo = (e) => {
         e.preventDefault();
 
-        try 
-        {
-            let modelo = inputModelo.current.value;
-            let preco = inputPreco.current.value;
-            let descricao = inputDescricao.current.value;
-            let foto = inputFoto.current.value;
+        let modelo = inputModelo.current.value;
+        let preco = inputPreco.current.value;
+        let descricao = inputDescricao.current.value;
+        let foto = inputFoto.current.value;
 
-            const veiculo = await VeiculoService.addVeiculo(modelo, foto, preco, descricao);
-            setVeiculos([veiculo, ...veiculos]);
-            alert('Veículo cadastrado com sucesso!');
-            e.target.reset();
-            resetValidator();
-        }
-        catch(erro) {
-            alert(erro.message);
-        }
+        dispatch(VeiculosThunkActions.addVeiculo(modelo, foto, preco, descricao));
     }
 
 
@@ -81,7 +87,8 @@ export default function VeiculosAdminPage() {
                 </p>
             </div>
             <div className="container">
-                <form onSubmit={ handleAddVeiculo } method="POST" className="card" action="" enctype="multipart/form-data">
+                { error && <div className="alert alert-warning mb-3">{error}</div> }
+                <form ref={refForm} onSubmit={ handleAddVeiculo } method="POST" className="card" action="" enctype="multipart/form-data">
                     <div className="card-body">
                         <div className="row">
                             <div className="form-group col-md-12">

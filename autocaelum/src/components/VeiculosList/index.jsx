@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import VeiculoItem from '../VeiculoItem';
 import '../../assets/css/veiculos.css';
-import VeiculoService from '../../services/VeiculoService';
+import { useSelector, useDispatch } from 'react-redux';
+import { VeiculosThunkActions } from '../../store/ducks/veiculos';
 
 export default function VeiculosList({ quantidade, mostrarTitulo, randomico }) {
-    const [veiculos, setVeiculos] = useState([]);
+    const veiculos = useSelector( state => state.veiculos.data );
+    const dispatch = useDispatch();
 
     useEffect(_ => {
-        VeiculoService.getVeiculos(quantidade, randomico).then(listaVeiculos => setVeiculos(listaVeiculos));
+        dispatch(VeiculosThunkActions.loadVeiculos(quantidade, randomico));
     }, []);
 
     return (
