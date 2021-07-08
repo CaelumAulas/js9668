@@ -3,23 +3,18 @@ import Container from './components/Container';
 import Formulario from './components/Formulario';
 import TabelaContatos from './components/TabelaContatos';
 import Rodape from './components/Rodape';
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { loadContatos, addContato, deleteContato } from './store/ducks/contatos';
 
 function MinhaAgenda() {
-  // useState retorna 2 valores: 1ª valor do estado, 2º a referencia da função de atualização desse estado
-  const [contatos, setContatos] = useState([]);
+  const contatos = useSelector(state => state.contatos.data);
+  const dispatch = useDispatch();
 
-  const addContact = (nome, telefone) => {
-    const contato = { nome, telefone };
-    contatos.push(contato);
-    setContatos([...contatos]);
-  }
+  useEffect(() => dispatch(loadContatos()), []);
 
-  const removeContact = (indice) => {
-    contatos.splice(indice, 1);
-    setContatos([...contatos]);
-  }
-
+  const addContact = (nome, telefone) => dispatch(addContato({ nome, telefone }));
+  const removeContact = (indice) => dispatch(deleteContato(indice));
   
   return (
       <>
